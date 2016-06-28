@@ -16,12 +16,20 @@ public class DemoObjectFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // The last two arguments ensure LayoutParams are inflated
         // properly.
-        View rootView = inflater.inflate(R.layout.layout_test, container, false);
-        Bundle args = getArguments();
-        ((TextView) rootView.
-                findViewById(android.R.id.text1)).
-                setText(Integer.toString
-                        (args.getInt(ARG_OBJECT)));
-        return rootView;
+        switch (getArguments().getInt(ARG_OBJECT)){
+            case 1 :
+                View rootView1 = inflater.inflate(R.layout.layout1, container, false);
+
+                return rootView1;
+            case 2 :
+                View rootView2 = inflater.inflate(R.layout.layout2, container, false);
+                return rootView2;
+            case 3 :
+                View rootView3 = inflater.inflate(R.layout.layout3, container, false);
+
+                return rootView3;
+
+        };
+        return null;
     }
 }
