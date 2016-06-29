@@ -119,10 +119,12 @@ class onClickListener implements  View.OnClickListener {
         JSONObject jobj = new JSONObject();
 
         try {
-         jobj.put("name", mNameText.getText().toString());
-         jobj.put("number", Integer.parseInt(mNumberText.getText().toString()));
-        } catch (JSONException e) {}
+            jobj.put("name", mNameText.getText().toString());
+            jobj.put("number", Integer.parseInt(mNumberText.getText().toString()));
+            TabAFragment.adapter.add(new PhonePerson(jobj));
+        }
+        catch (JSONException e) {}
+        catch (NumberFormatException e) {}
 
-        TabAFragment.adapter.add(new PhonePerson(jobj));
     }
 }
