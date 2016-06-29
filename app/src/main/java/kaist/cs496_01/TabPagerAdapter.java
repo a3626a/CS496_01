@@ -4,22 +4,21 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
  * Created by q on 2016-06-28.
  */
-public class DemoCollectionPagerAdapter extends FragmentPagerAdapter {
-    public DemoCollectionPagerAdapter(FragmentManager fm) {
+public class TabPagerAdapter extends FragmentPagerAdapter {
+    public TabPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
     @Override
     public Fragment getItem(int i) {
-        Fragment fragment = new DemoObjectFragment();
+        Fragment fragment = new TabFragment();
         Bundle args = new Bundle();
         // Our object is just an integer :-P
-        args.putInt(DemoObjectFragment.ARG_OBJECT, i + 1);
+        args.putInt(TabFragment.ARG_OBJECT, i + 1);
         fragment.setArguments(args);
         return fragment;
     }

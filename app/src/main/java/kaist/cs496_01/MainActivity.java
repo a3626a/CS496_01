@@ -8,7 +8,7 @@ import android.support.v4.view.ViewPager;
 
 public class MainActivity extends FragmentActivity {
 
-    DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
+    TabPagerAdapter mDemoCollectionPagerAdapter;
     ViewPager mViewPager;
 
     @Override
@@ -19,11 +19,11 @@ public class MainActivity extends FragmentActivity {
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
         mDemoCollectionPagerAdapter =
-                new DemoCollectionPagerAdapter(
+                new TabPagerAdapter(
                         getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-        mViewPager.setOnPageChangeListener(
+        mViewPager.addOnPageChangeListener(
                 new ViewPager.SimpleOnPageChangeListener() {
                     @Override
                     public void onPageSelected(int position) {
