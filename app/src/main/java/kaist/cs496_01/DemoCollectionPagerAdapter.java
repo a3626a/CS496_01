@@ -3,12 +3,13 @@ package kaist.cs496_01;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 /**
  * Created by q on 2016-06-28.
  */
-public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
+public class DemoCollectionPagerAdapter extends FragmentPagerAdapter {
     public DemoCollectionPagerAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -25,7 +26,7 @@ public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 100;
+        return 3;
     }
 
     @Override
