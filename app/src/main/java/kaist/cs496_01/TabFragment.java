@@ -17,10 +17,10 @@ public class TabFragment extends Fragment {
         // properly.
         switch (getArguments().getInt(ARG_OBJECT)) {
             case 1:
-                View rootView1 = inflater.inflate(R.layout.TAB_PHONE, container, false);
+                View rootView1 = inflater.inflate(R.layout.tab_phone, container, false);
                 return rootView1;
             case 2:
-                View rootView2 = inflater.inflate(R.layout.TAB_GALLERY, container, false);
+                View rootView2 = inflater.inflate(R.layout.tab_gallery, container, false);
                 return rootView2;
             case 3:
                 View rootView3 = inflater.inflate(R.layout.layout3, container, false);
