@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <TextView
-    android:textSize="30sp"
-    android:gravity="center"
-    android:layout_height="100dp"
-    android:layout_width="match_parent"
-    android:text="button2"
-    xmlns:android="http://schemas.android.com/apk/res/android"/>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/GridView"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:numColumns="auto_fit"
+    android:verticalSpacing="50dp"
+    android:horizontalSpacing="0dp"
+    android:stretchMode="columnWidth"
+    android:gravity="center">
 
-    <TextView
-        android:textSize="30sp"
-        android:gravity="center"
-        android:layout_height="100dp"
-        android:layout_width="match_parent"
-        android:text="button3"
-        xmlns:android="http://schemas.android.com/apk/res/android"/></LinearLayout>
+</GridView>
