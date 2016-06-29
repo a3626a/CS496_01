@@ -19,6 +19,8 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
 
         if (i==0)
             return new TabAFragment();
+        else if (i==1)
+            return new TabBFragment();
 
 
         fragment = new TabFragment();
