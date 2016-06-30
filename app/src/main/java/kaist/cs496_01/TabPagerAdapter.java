@@ -21,15 +21,10 @@ public class TabPagerAdapter extends FragmentPagerAdapter {
             return new TabAFragment();
         else if (i==1)
             return new TabBFragment();
+        else if (i==2)
+            return new TabCFragment();
 
-
-        fragment = new TabFragment();
-        Bundle args = new Bundle();
-        // Our object is just an integer :-P
-        args.putInt(TabFragment.ARG_OBJECT, i + 1);
-        fragment.setArguments(args);
-        return fragment;
-
+        return null;
     }
 
     @Override
