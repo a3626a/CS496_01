@@ -8,6 +8,8 @@ import android.support.v4.view.ViewPager;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.astuetz.PagerSlidingTabStrip;
+
 public class MainActivity extends FragmentActivity {
 
     TabPagerAdapter mDemoCollectionPagerAdapter;
@@ -23,40 +25,11 @@ public class MainActivity extends FragmentActivity {
         mDemoCollectionPagerAdapter = new TabPagerAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-        mViewPager.addOnPageChangeListener(
-                new ViewPager.SimpleOnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        // When swiping between pages, select the
-                        // corresponding tab.
-                        getActionBar().setSelectedNavigationItem(position);
-                    }
-                });
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        tabs.setViewPager(mViewPager);
+        //final ActionBar actionBar = getActionBar();
+        //actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        final ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                // hide the given tab
-            }
-
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-                // probably ignore this event
-            }
-        };
-
-        // Add 3 tabs, specifying the tab's text and TabListener
-        for (int i = 0; i < 3; i++) {
-            actionBar.addTab(
-                    actionBar.newTab()
-                            .setText("Tab " + (i + 1))
-                            .setTabListener(tabListener));
-        }
     }
 }
 
