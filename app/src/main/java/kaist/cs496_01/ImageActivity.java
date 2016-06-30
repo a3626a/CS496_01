@@ -15,6 +15,6 @@ public class ImageActivity extends Activity {
         ImageView image = (ImageView)findViewById(R.id.image);
 
         Intent intent = getIntent();
-        image.setImageResource(ImageAdapter.mThumbIds[intent.getIntExtra("selected",0)]);
+        image.setImageResource(TabBFragment.mThumbIds[intent.getIntExtra("selected",0)]);
     }
 }
