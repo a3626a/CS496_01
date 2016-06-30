@@ -120,7 +120,7 @@ class onClickListener implements  View.OnClickListener {
 
         try {
             jobj.put("name", mNameText.getText().toString());
-            jobj.put("number", Integer.parseInt(mNumberText.getText().toString()));
+            jobj.put("number",mNumberText.getText().toString());
             TabAFragment.adapter.add(new PhonePerson(jobj));
         }
         catch (JSONException e) {}

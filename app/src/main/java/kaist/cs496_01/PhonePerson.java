@@ -11,12 +11,12 @@ import org.json.JSONObject;
  */
 public class PhonePerson {
     private String name;
-    private int number;
+    private String number;
 
     public PhonePerson(JSONObject jobj) {
         try {
             this.name = jobj.getString("name");
-            this.number = jobj.getInt("number");
+            this.number = jobj.getString("number");
         } catch (JSONException e) {
         }
     }
@@ -25,7 +25,7 @@ public class PhonePerson {
         TextView nametext = (TextView) view.findViewById(R.id.name);
         nametext.setText(this.name);
         TextView numbertext = (TextView) view.findViewById(R.id.number);
-        numbertext.setText(Integer.toString(this.number));
+        numbertext.setText(this.number);
     }
 
     public JSONObject toJSON() {
