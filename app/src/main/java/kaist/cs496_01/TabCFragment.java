@@ -5,6 +5,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +23,10 @@ import java.io.IOException;
  * Created by q on 2016-06-30.
  */
 public class TabCFragment extends Fragment {
-    Button button;
     MediaPlayer mp;
+    ViewPager page;
+    public static final Integer[] music_sample = {R.raw.konan,R.raw.allegro,R.raw.canon};
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +38,38 @@ public class TabCFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_music, null);
-
+        page = (ViewPager) view.findViewById(R.id.pager);
         Button btn1 = (Button) view.findViewById(R.id.button1);
         Button btn2 = (Button) view.findViewById(R.id.button2);
         Button btn3 = (Button) view.findViewById(R.id.button3);
 
+        page.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return new Fragment();
+            }
+
+            @Override
+            public int getCount() {
+                return music_sample.length;
+            }
+        });
+        page.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                mp = MediaPlayer.create(getActivity(),music_sample[position]);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
