@@ -4,12 +4,14 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapRegionDecoder;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import java.io.InputStream;
 import java.lang.ref.WeakReference;
 
 /**
@@ -22,12 +24,27 @@ public class BitmapHelper {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeResource(res, resId, options);
-
+        int orgWidth=options.outWidth;
+        int orgHeight=options.outHeight;
         // Calculate inSampleSize
         options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeResource(res, resId, options);
+
+        try {
+            InputStream is = res.openRawResource(resId);
+            BitmapRegionDecoder regionDecoder = BitmapRegionDecoder.newInstance(is, false);
+            if (reqHeight/(double)reqWidth>orgHeight/(double)orgWidth) {
+                int tWidth = (int)(orgHeight*(reqWidth/(double)reqHeight));
+                return regionDecoder.decodeRegion(new Rect((orgWidth-tWidth)/2,0,(orgWidth+tWidth)/2,orgHeight),options);
+            } else {
+                int tHeight = (int)(orgWidth*(reqHeight/(double)reqWidth));
+                return regionDecoder.decodeRegion(new Rect(0,(orgHeight-tHeight)/2,orgWidth,(orgHeight+tHeight)/2),options);
+            }
+            //return BitmapFactory.decodeResource(res, resId, options);
+        } catch(Exception e) {}
+        return null;
+
     }
 
     public static int calculateInSampleSize(
@@ -49,6 +66,8 @@ public class BitmapHelper {
                 inSampleSize *= 2;
             }
         }
+
+        Log.i("LogCat",Integer.toString(inSampleSize));
 
         return inSampleSize;
     }
@@ -134,23 +153,26 @@ public class BitmapHelper {
 
             // Crop image before setting to image view to reduce memory usage
             Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromResource(resources,data,x,y);
+            /*
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
             if ((y/(double)x)*width>height) {
-                /*
                 double k = (y*width-x*height)/(2*(double)y);
-                return Bitmap.createBitmap(bitmap,(int)k,0,(int)(width-2*k),height);
-                */
-                int k = (int)((y*width-x*height)/(2*(double)y));
-                return Bitmap.createBitmap(bitmap,k,0,width-2*k,height);
+                Bitmap retBitmap =  Bitmap.createBitmap(bitmap,(int)k,0,(int)(width-2*k),height);
+                if (retBitmap!=bitmap) {
+                    bitmap.recycle();
+                }
+                return retBitmap;
             } else {
-                /*
                 double k = (x*height-y*width)/(2*(double)x);
-                return Bitmap.createBitmap(bitmap,(int)k, 0, width, (int)(height-2*k));
-                */
-                int k = (int)((x*height-y*width)/(2*(double)x));
-                return Bitmap.createBitmap(bitmap,0, k, width, height-2*k);
+                Bitmap retBitmap = Bitmap.createBitmap(bitmap,0, (int)k, width, (int)(height-2*k));
+                if (retBitmap!=bitmap) {
+                    bitmap.recycle();
+                }
+                return retBitmap;
             }
+            */
+            return bitmap;
         }
 
 
