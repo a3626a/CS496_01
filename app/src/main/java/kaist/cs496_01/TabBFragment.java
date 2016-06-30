@@ -46,6 +46,7 @@ import java.util.ArrayList;
  * Created by q on 2016-06-29.
  */
 public class TabBFragment extends Fragment implements GridView.OnItemClickListener{
+
     public static final Integer[] mThumbIds = {
             R.drawable.sample_1, R.drawable.sample_2,
             R.drawable.sample_3, R.drawable.sample_4,
@@ -56,6 +57,7 @@ public class TabBFragment extends Fragment implements GridView.OnItemClickListen
             R.drawable.sample_13 };
     private ImageAdapter adapter;
     private Bitmap mPlaceHolderBitmap;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,44 +82,6 @@ public class TabBFragment extends Fragment implements GridView.OnItemClickListen
         Intent i = new Intent(getActivity(), ImageActivity.class);
         i.putExtra("selected", position);
         startActivity(i);
-    }
-
-
-    public void loadBitmap(int resId, ImageView imageView, int xdp, int ydp) {
-        if (cancelPotentialWork(resId, imageView)) {
-            final BitmapWorkerTask task = new BitmapWorkerTask(imageView);
-            final AsyncDrawable asyncDrawable = new AsyncDrawable(getResources(), mPlaceHolderBitmap, task);
-            imageView.setImageDrawable(asyncDrawable);
-            task.execute(resId, BitmapHelper.dpToPx(xdp),BitmapHelper.dpToPx(ydp));
-        }
-    }
-
-    public static boolean cancelPotentialWork(int data, ImageView imageView) {
-        final BitmapWorkerTask bitmapWorkerTask = getBitmapWorkerTask(imageView);
-
-        if (bitmapWorkerTask != null) {
-            final int bitmapData = bitmapWorkerTask.data;
-            if (bitmapData != data) {
-                // Cancel previous task
-                bitmapWorkerTask.cancel(true);
-            } else {
-                // The same work is already in progress
-                return false;
-            }
-        }
-        // No task associated with the ImageView, or an existing task was cancelled
-        return true;
-    }
-
-    private static BitmapWorkerTask getBitmapWorkerTask(ImageView imageView) {
-        if (imageView != null) {
-            final Drawable drawable = imageView.getDrawable();
-            if (drawable instanceof AsyncDrawable) {
-                final AsyncDrawable asyncDrawable = (AsyncDrawable) drawable;
-                return asyncDrawable.getBitmapWorkerTask();
-            }
-        }
-        return null;
     }
 
     private class ImageAdapter extends BaseAdapter {
@@ -148,64 +112,9 @@ public class TabBFragment extends Fragment implements GridView.OnItemClickListen
                 imageView = (ImageView) convertView;
             }
 
-            loadBitmap(mThumbIds[position],imageView,100,100);
+            BitmapHelper.loadBitmap(mThumbIds[position],imageView,BitmapHelper.dpToPx(100),BitmapHelper.dpToPx(100),mPlaceHolderBitmap,getResources());
 
             return imageView;
         }
     }
-
-    static class AsyncDrawable extends BitmapDrawable {
-        private final WeakReference<BitmapWorkerTask> bitmapWorkerTaskReference;
-
-        public AsyncDrawable(Resources res, Bitmap bitmap, BitmapWorkerTask bitmapWorkerTask) {
-            super(res, bitmap);
-            bitmapWorkerTaskReference = new WeakReference<BitmapWorkerTask>(bitmapWorkerTask);
-        }
-
-        public BitmapWorkerTask getBitmapWorkerTask() {
-            return bitmapWorkerTaskReference.get();
-        }
-    }
-
-    class BitmapWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
-        private final WeakReference<ImageView> imageViewReference;
-        private int data = 0;
-
-        public BitmapWorkerTask(ImageView imageView) {
-            // Use a WeakReference to ensure the ImageView can be garbage collected
-            imageViewReference = new WeakReference<ImageView>(imageView);
-        }
-
-
-        // Decode image in background.
-        @Override
-        protected Bitmap doInBackground(Integer... params) {
-            int data = (Integer)params[0];
-            int x = (Integer)params[1];
-            int y = (Integer)params[2];
-
-            // Crop image before setting to image view to reduce memory usage
-            Bitmap bitmap = BitmapHelper.decodeSampledBitmapFromResource(getResources(),data,x,y);
-            int width = bitmap.getWidth();
-            int height = bitmap.getHeight();
-            if (width>height) {
-                return Bitmap.createBitmap(bitmap,(width-height)/2,0,height,height);
-            } else {
-                return Bitmap.createBitmap(bitmap,0, (height-width)/2, width ,width);
-            }
-        }
-
-
-        // Once complete, see if ImageView is still around and set bitmap.
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (imageViewReference != null && bitmap != null) {
-                final ImageView imageView = imageViewReference.get();
-                if (imageView != null) {
-                    imageView.setImageBitmap(bitmap);
-                }
-            }
-        }
-    }
-
 }
