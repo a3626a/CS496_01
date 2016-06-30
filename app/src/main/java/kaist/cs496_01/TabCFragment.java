@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,11 +45,12 @@ public class TabCFragment extends Fragment {
         Button btn1 = (Button) view.findViewById(R.id.button1);
         Button btn2 = (Button) view.findViewById(R.id.button2);
         Button btn3 = (Button) view.findViewById(R.id.button3);
-        page.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+        page.setAdapter(new FragmentStatePagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return new MusicFragment();
+                return MusicFragment.position_i(position);
             }
+
 
             @Override
             public int getCount() {
@@ -60,6 +62,7 @@ public class TabCFragment extends Fragment {
                 return "SONG " + (position + 1);
             }
         });
+
         page.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
