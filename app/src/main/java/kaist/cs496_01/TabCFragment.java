@@ -44,7 +44,7 @@ public class TabCFragment extends Fragment {
         Button btn1 = (Button) view.findViewById(R.id.button1);
         Button btn2 = (Button) view.findViewById(R.id.button2);
         Button btn3 = (Button) view.findViewById(R.id.button3);
-        page.setAdapter(new FragmentPagerAdapter(getActivity().getSupportFragmentManager()) {
+        page.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 return new MusicFragment();
@@ -83,8 +83,6 @@ public class TabCFragment extends Fragment {
 
             }
         });
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.music_tabs);
-        tabs.setViewPager(page);
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
